@@ -1,11 +1,22 @@
+'use client';
+
+import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users } from "lucide-react"; // Icono relevante para equipo
+import { Users, Github, Twitter, Youtube, MessageCircle } from "lucide-react";
+import Link from "next/link";
 
 interface TeamMember {
   name: string;
   role: string;
   description: string;
-  avatar: string; // URL de imagen o path
+  avatar: string;
+  discordTag?: string; 
+  links?: {
+    github?: string;
+    twitter?: string;
+    youtube?: string;
+    linkedin?: string,
+  };
 }
 
 const teamMembers: TeamMember[] = [
@@ -13,14 +24,13 @@ const teamMembers: TeamMember[] = [
     name: "Karnyxel",
     role: "Desarrollador Principal",
     description: "Creador del bot Nyxara y experto en Discord.js.",
-    avatar: "/avatars/karnyxel.png", 
+    avatar: "/avatars/karnyxel.png",
     discordTag: "karnyxel",
     links: {
-        github: "https://github.com/luna_design",
-        twitter: "https://twitter.com/luna_design"
-      }
-},
-  // Agrega más miembros del equipo aquí, ej:
+      github: "https://github.com/Karnyxel",
+      twitter: "https://twitter.com/Karnyxel"
+    }
+  },
   {
     name: "Colaborador X",
     role: "Diseñador",
@@ -28,11 +38,10 @@ const teamMembers: TeamMember[] = [
     avatar: "/avatars/colaborador.png",
     discordTag: "codex_dev",
     links: {
-        youtube: "youtube.com/colabx",
-        github: "github.com/colabx"
+      youtube: "https://youtube.com/colabx",
+      github: "https://github.com/colabx"
     }
   },
-  // Etc.
 ];
 
 export function TeamSection() {
@@ -50,20 +59,50 @@ export function TeamSection() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {teamMembers.map((member, index) => (
-            <Card key={index} className="glass-effect card-hover overflow-hidden">
+            <Card key={index} className="glass-effect card-hover overflow-hidden hover:shadow-xl transition-all duration-300">
               <CardHeader className="p-0">
+                {/* Use standard img tag instead */}
                 <img
-                  src={member.avatar}
-                  alt={member.name}
-                  className="w-full h-48 object-cover"
+                    src={member.avatar}
+                    alt={`Avatar de ${member.name}`}
+                    className="w-full h-48 object-cover"
+                    // Remove placeholder and blurDataURL props
+                    // Use a default src or CSS fallback instead
                 />
-              </CardHeader>
+                </CardHeader>
               <CardContent className="p-6 text-center">
                 <CardTitle className="text-2xl font-semibold mb-2">
                   {member.name}
                 </CardTitle>
-                <p className="text-primary font-medium mb-4">{member.role}</p>
-                <p className="text-muted-foreground">{member.description}</p>
+                <p className="text-primary font-medium mb-2">{member.role}</p>
+                <p className="text-muted-foreground mb-6">{member.description}</p>
+                
+                {member.discordTag && (
+                  <div className="flex items-center justify-center gap-2 mb-4 text-sm text-muted-foreground">
+                    <MessageCircle className="h-4 w-4" />
+                    <span>{member.discordTag}</span>
+                  </div>
+                )}
+                
+                {member.links && (
+                  <div className="flex justify-center gap-4 mt-4">
+                    {member.links.github && (
+                      <Link href={member.links.github} target="_blank" rel="noopener noreferrer">
+                        <Github className="h-5 w-5 hover:text-primary transition-colors" />
+                      </Link>
+                    )}
+                    {member.links.twitter && (
+                      <Link href={member.links.twitter} target="_blank" rel="noopener noreferrer">
+                        <Twitter className="h-5 w-5 hover:text-primary transition-colors" />
+                      </Link>
+                    )}
+                    {member.links.youtube && (
+                      <Link href={member.links.youtube} target="_blank" rel="noopener noreferrer">
+                        <Youtube className="h-5 w-5 hover:text-primary transition-colors" />
+                      </Link>
+                    )}
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))}
