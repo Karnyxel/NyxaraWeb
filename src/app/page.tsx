@@ -6,7 +6,7 @@ import { botAPI } from '@/lib/api/bot-client';
 import Link from 'next/link';
 
 export default async function Home() {
-  // Obtener stats en tiempo real del bot
+
   const stats = await botAPI.getPublicStats();
   
   return (

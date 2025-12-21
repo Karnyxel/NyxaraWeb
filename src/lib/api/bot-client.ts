@@ -1,4 +1,3 @@
-// src/lib/api/bot-client.ts
 const BOT_API_URL = process.env.NEXT_PUBLIC_BOT_API_URL || 'http://localhost:3001';
 
 export class BotAPIClient {
@@ -8,7 +7,6 @@ export class BotAPIClient {
     this.baseUrl = BOT_API_URL;
   }
   
-  // API Pública
   async getPublicStats() {
     const res = await fetch(`${this.baseUrl}/api/public/stats`);
     return res.json();
@@ -18,8 +16,7 @@ export class BotAPIClient {
     const res = await fetch(`${this.baseUrl}/api/public/commands`);
     return res.json();
   }
-  
-  // API Interna (requiere autenticación)
+
   async getGuild(guildId: string, accessToken: string) {
     const res = await fetch(`${this.baseUrl}/api/internal/guilds/${guildId}`, {
       headers: {
