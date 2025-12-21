@@ -1,27 +1,38 @@
-// src/app/layout.tsx
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import "./globals.css"
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: 'Nyxara - Discord Bot',
-  description: 'Potente bot de Discord con dashboard interactivo',
-};
+  title: "Nyxara - El Bot Definitivo para Discord",
+  description: "Bot de Discord con 112 comandos, sistema de música premium, moderación avanzada y dashboard web interactivo.",
+  keywords: ["discord bot", "nyxara", "música discord", "moderación", "bot premium"],
+  openGraph: {
+    type: "website",
+    url: "https://nyxara.xyz",
+    title: "Nyxara - El Bot Definitivo para Discord",
+    description: "Bot de Discord con 112 comandos, sistema de música premium y moderación avanzada.",
+    images: ["/og-image.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nyxara Discord Bot",
+    description: "El bot más completo para tu servidor de Discord",
+    images: ["/twitter-image.png"],
+  },
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
-    <html lang="es" className="dark">
-      <body className={`${inter.className} bg-gray-900 text-white min-h-screen`}>
-        <div className="container mx-auto px-4 py-8">
-          {children}
-        </div>
+    <html lang="es" className="scroll-smooth">
+      <body className={`${inter.className} antialiased`}>
+        {children}
       </body>
     </html>
-  );
+  )
 }
