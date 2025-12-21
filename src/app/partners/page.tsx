@@ -1,11 +1,11 @@
-import PartnerGrid from './components/PartnerGrid';
+import PartnersSection from './components/PartnersSection';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Partners | Nyxara',
-  description: 'Colaboramos con los mejores en la industria para ofrecerte soluciones integrales y de calidad.',
+  title: 'Partners | Nyxara Bot',
+  description: 'Partners y colaboradores oficiales de Nyxara Bot.',
 };
 
 export default function PartnersPage() {
-  return <PartnerGrid />;
+  return <PartnersSection />;
 }

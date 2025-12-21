@@ -2,8 +2,8 @@ import TeamSection from './components/TeamSection';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Nuestro Equipo | Nyxara',
-  description: 'Conoce al equipo detrás de Nyxara. Apasionados por crear la mejor experiencia para nuestros usuarios.',
+  title: 'Equipo | Nyxara Bot',
+  description: 'Conoce al equipo detrás de Nyxara, el bot de Discord más versátil.',
 };
 
 export default function EquipoPage() {
