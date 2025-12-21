@@ -1,8 +1,9 @@
+"use client" 
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Bot, Menu, X, Shield, Music, Sparkles } from "lucide-react"
+import { Bot, Menu, X, Shield, Sparkles } from "lucide-react"
 import { useState } from "react"
-
 const navItems = [
   { name: "Inicio", href: "/" },
   { name: "Comandos", href: "/comandos" },

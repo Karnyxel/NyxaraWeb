@@ -1,3 +1,4 @@
+// tailwind.config.ts - VERSIÓN SIMPLIFICADA
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
@@ -9,30 +10,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Paleta de colores profesional para Nyxara
-        nyxara: {
-          primary: '#8B5CF6',
-          secondary: '#EC4899',
-          accent: '#10B981',
-          dark: '#0F172A',
-          darker: '#0A1122',
-          light: '#F8FAFC',
-        },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
-        },
+        'nyxara-primary': '#8B5CF6',
+        'nyxara-secondary': '#EC4899',
+        'nyxara-dark': '#0F172A',
+        'nyxara-darker': '#0A1122',
+        'nyxara-light': '#F8FAFC',
+        'border': '#374151',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',
         'gradient': 'gradient 8s linear infinite',
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'shimmer': 'shimmer 2s linear infinite',
       },
       keyframes: {
         float: {
@@ -49,17 +37,12 @@ const config: Config = {
             'background-position': 'right center',
           },
         },
-        shimmer: {
-          '0%': { backgroundPosition: '-1000px 0' },
-          '100%': { backgroundPosition: '1000px 0' },
-        },
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'gradient-nyxara': 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
         'gradient-dark': 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
-        'gradient-premium': 'linear-gradient(135deg, #F59E0B 0%, #D97706 25%, #B45309 50%, #92400E 75%, #78350F 100%)',
       },
     },
   },

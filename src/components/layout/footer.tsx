@@ -1,4 +1,5 @@
-import { Bot, Github, Twitter, Discord, Heart } from "lucide-react"
+import { Bot, Github, Twitter, Heart } from "lucide-react"
+import { MessageCircle } from "lucide-react" 
 import Link from "next/link"
 
 export function Footer() {
@@ -26,7 +27,7 @@ export function Footer() {
                 <Twitter className="h-5 w-5" />
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
-                <Discord className="h-5 w-5" />
+                <MessageCircle className="h-5 w-5" /> {/* Discord */}
               </a>
             </div>
           </div>
