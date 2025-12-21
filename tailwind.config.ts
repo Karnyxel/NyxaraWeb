@@ -1,4 +1,3 @@
-// tailwind.config.ts - VERSIÓN SIMPLIFICADA
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
@@ -10,43 +9,34 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'nyxara-primary': '#8B5CF6',
-        'nyxara-secondary': '#EC4899',
-        'nyxara-dark': '#0F172A',
-        'nyxara-darker': '#0A1122',
-        'nyxara-light': '#F8FAFC',
-        'border': '#374151',
+        background: '#0a0a0a',
+        foreground: '#ffffff',
+        primary: {
+          DEFAULT: '#8b5cf6',
+          dark: '#7c3aed',
+        }
       },
       animation: {
-        'float': 'float 6s ease-in-out infinite',
-        'gradient': 'gradient 8s linear infinite',
-        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'fade-in': 'fadeIn 0.5s ease-in-out',
+        'slide-up': 'slideUp 0.5s ease-out',
+        'float': 'float 3s ease-in-out infinite',
       },
       keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-20px)' },
+          '50%': { transform: 'translateY(-10px)' },
         },
-        gradient: {
-          '0%, 100%': {
-            'background-size': '200% 200%',
-            'background-position': 'left center',
-          },
-          '50%': {
-            'background-size': '200% 200%',
-            'background-position': 'right center',
-          },
-        },
-      },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'gradient-nyxara': 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
-        'gradient-dark': 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
       },
     },
   },
   plugins: [],
 }
-
 export default config
