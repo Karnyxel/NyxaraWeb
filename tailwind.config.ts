@@ -1,5 +1,4 @@
-// tailwind.config.ts
-import type { Config } from 'next'
+import type { Config } from 'tailwindcss'
 
 const config: Config = {
   content: [
@@ -10,14 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Define el color 'border' para resolver el error
-        border: 'hsl(var(--border))',
-        // Añade otros colores básicos que tu diseño necesita
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        // Colores personalizados básicos
+        primary: '#8B5CF6',
+        secondary: '#64748B',
       },
     },
   },
   plugins: [],
 }
-export default config
