@@ -58,3 +58,14 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+@layer components {
+  .btn-custom {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition;
+  }
+  .hero-gradient {
+    @apply bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text;
+  }
+  .glass-effect {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-xl shadow-lg;
+  }
+}

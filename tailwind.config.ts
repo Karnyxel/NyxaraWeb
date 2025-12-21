@@ -17,6 +17,7 @@ const config: Config = {
     },
     extend: {
       colors: {
+        'nyxara-brand': '#666666',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
