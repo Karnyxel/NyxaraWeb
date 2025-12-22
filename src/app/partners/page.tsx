@@ -1,4 +1,6 @@
-import PartnersSection from './components/PartnersSection';
+import PartnersSection from "@/components/sections/PartnersSection";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -7,5 +9,13 @@ export const metadata: Metadata = {
 };
 
 export default function PartnersPage() {
-  return <PartnersSection />;
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-grow">
+        <PartnersSection />
+      </main>
+      <Footer />
+    </div>
+  );
 }

@@ -24,7 +24,7 @@ const teamMembers: TeamMember[] = [
     name: "Karnyxel",
     role: "Desarrollador Principal",
     description: "Creador del bot Nyxara y experto en Discord.js.",
-    avatar: "/avatars/karnyxel.png",
+    avatar: "https://i.pinimg.com/236x/50/42/56/504256185a1f17e9a38211f9e5ee6054.jpg",
     discordTag: "karnyxel",
     links: {
       github: "https://github.com/Karnyxel",
@@ -35,7 +35,7 @@ const teamMembers: TeamMember[] = [
     name: "Colaborador X",
     role: "Diseñador",
     description: "Encargado de UI/UX y estilos.",
-    avatar: "/avatars/colaborador.png",
+    avatar: "https://avatars.githubusercontent.com/u/94134376?v=4",
     discordTag: "codex_dev",
     links: {
       youtube: "https://youtube.com/colabx",
@@ -46,59 +46,51 @@ const teamMembers: TeamMember[] = [
 
 export function TeamSection() {
   return (
-    <section className="py-20 bg-gradient-to-b from-background to-muted/50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-foreground mb-4 flex items-center justify-center gap-2">
-            <Users className="h-8 w-8 text-primary" />
-            Nuestro Equipo
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Conoce al equipo detrás de Nyxara, el bot que revoluciona tus servidores de Discord.
-          </p>
+    <section className="team-section">
+      <div className="team-inner">
+        <div className="team-header">
+          <h2 className="team-title">Nuestro Equipo</h2>
+          <p className="team-desc">Conoce al equipo detrás de Nyxara, el bot que revoluciona tus servidores de Discord.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="team-grid">
           {teamMembers.map((member, index) => (
-            <Card key={index} className="glass-effect card-hover overflow-hidden hover:shadow-xl transition-all duration-300">
-              <CardHeader className="p-0">
-                {/* Use standard img tag instead */}
-                <img
-                    src={member.avatar}
-                    alt={`Avatar de ${member.name}`}
-                    className="w-full h-48 object-cover"
-                    // Remove placeholder and blurDataURL props
-                    // Use a default src or CSS fallback instead
-                />
-                </CardHeader>
-              <CardContent className="p-6 text-center">
-                <CardTitle className="text-2xl font-semibold mb-2">
-                  {member.name}
-                </CardTitle>
-                <p className="text-primary font-medium mb-2">{member.role}</p>
-                <p className="text-muted-foreground mb-6">{member.description}</p>
-                
+            <Card key={index} className="team-card group">
+              <CardHeader className="team-card-header">
+                <div className="team-avatar-div">
+                  <img 
+                    src={member.avatar} 
+                    alt={member.name} 
+                    className="team-avatar"
+                    width={128}
+                    height={128}
+                  />
+                </div>
+                <CardTitle className="team-card-title">{member.name}</CardTitle>
+                <p className="team-role">{member.role}</p>
+              </CardHeader>
+              <CardContent className="team-card-content">
+                <p className="team-description">{member.description}</p>
                 {member.discordTag && (
-                  <div className="flex items-center justify-center gap-2 mb-4 text-sm text-muted-foreground">
-                    <MessageCircle className="h-4 w-4" />
-                    <span>{member.discordTag}</span>
+                  <div className="team-discord">
+                    <MessageCircle className="team-icon" />
+                    {member.discordTag}
                   </div>
                 )}
-                
                 {member.links && (
-                  <div className="flex justify-center gap-4 mt-4">
+                  <div className="team-social">
                     {member.links.github && (
-                      <Link href={member.links.github} target="_blank" rel="noopener noreferrer">
-                        <Github className="h-5 w-5 hover:text-primary transition-colors" />
+                      <Link href={member.links.github} target="_blank">
+                        <Github className="team-social-icon" />
                       </Link>
                     )}
                     {member.links.twitter && (
-                      <Link href={member.links.twitter} target="_blank" rel="noopener noreferrer">
-                        <Twitter className="h-5 w-5 hover:text-primary transition-colors" />
+                      <Link href={member.links.twitter} target="_blank">
+                        <Twitter className="team-social-icon" />
                       </Link>
                     )}
                     {member.links.youtube && (
-                      <Link href={member.links.youtube} target="_blank" rel="noopener noreferrer">
-                        <Youtube className="h-5 w-5 hover:text-primary transition-colors" />
+                      <Link href={member.links.youtube} target="_blank">
+                        <Youtube className="team-social-icon" />
                       </Link>
                     )}
                   </div>
