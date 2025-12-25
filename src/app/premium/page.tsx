@@ -1,4 +1,8 @@
-// Contenido mínimo válido
 export default function PremiumPage() {
-  return <div>Premium Page</div>;
+  return (
+    <div>
+      <h1>Premium Page</h1>
+      <p>Contenido premium aquí</p>
+    </div>
+  );
 }
