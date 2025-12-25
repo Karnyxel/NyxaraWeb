@@ -17,7 +17,6 @@ const config: Config = {
     },
     extend: {
       colors: {
-        'nyxara-brand': '#f92929ff',
         'nyxara-primary': '#f92929', // Rojo principal basado en tu brand
         'nyxara-secondary': '#ef4444', // Rojo secundario más claro
         'nyxara-dark': '#1f2937', // Gris oscuro para fondos/temas nocturnos
