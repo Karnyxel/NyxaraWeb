@@ -1,5 +1,5 @@
 import NextAuth from "next-auth"
-import DiscordProvider from "next-auth/providers/discord"
+import DiscordProvider from "@auth/discord"
 
 export const {
   handlers: { GET, POST },
