@@ -1,0 +1,101 @@
+// auth.ts
+import NextAuth from "next-auth";
+import DiscordProvider from "next-auth/providers/discord";
+import { db } from "@/lib/db";
+
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth({
+  providers: [
+    DiscordProvider({
+      clientId: process.env.DISCORD_CLIENT_ID!,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET!,
+      authorization: { params: { scope: "identify email guilds" } },
+    }),
+  ],
+  callbacks: {
+    async signIn({ user, account, profile }) {
+      try {
+        if (account && user.id) {
+          // Crear o actualizar usuario en la base de datos web
+          const userId = BigInt(user.id);
+          
+          await db.createOrUpdateWebUser(userId, {
+            websitelanguage: 'es',
+            theme: 'auto',
+            emailnotifications: true,
+            webnotification: true,
+            timezone: 'America/Lima'
+          });
+
+          // Guardar información de Discord
+          if (account.access_token) {
+            await db.query(`
+              INSERT INTO webdiscordauth (
+                userid, accesstoken, refreshtoken, expiresat, scope, lastlogin, logincount
+              ) VALUES (?, ?, ?, ?, ?, NOW(), 1)
+              ON DUPLICATE KEY UPDATE
+                accesstoken = VALUES(accesstoken),
+                refreshtoken = VALUES(refreshtoken),
+                expiresat = VALUES(expiresat),
+                scope = VALUES(scope),
+                lastlogin = NOW(),
+                logincount = logincount + 1
+            `, [
+              userId,
+              account.access_token,
+              account.refresh_token,
+              account.expires_at ? new Date(account.expires_at * 1000) : null,
+              account.scope
+            ]);
+          }
+        }
+        return true;
+      } catch (error) {
+        console.error('Error en signIn callback:', error);
+        return true; // Permitir login aunque falle la sincronización
+      }
+    },
+    
+    async jwt({ token, account, profile }) {
+      if (account) {
+        token.accessToken = account.access_token;
+        token.providerAccountId = account.providerAccountId;
+      }
+      if (profile) {
+        token.id = profile.id;
+        token.username = profile.username;
+        token.discriminator = profile.discriminator;
+        token.avatar = profile.avatar;
+        token.email = profile.email;
+      }
+      return token;
+    },
+    
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.sub!;
+        session.user.name = token.username as string;
+        session.user.email = token.email as string;
+        session.user.image = token.avatar 
+          ? `https://cdn.discordapp.com/avatars/${token.id}/${token.avatar}.png`
+          : null;
+        session.accessToken = token.accessToken as string;
+      }
+      return session;
+    },
+  },
+  pages: {
+    signIn: "/auth/login",
+    signOut: "/",
+    error: "/auth/error",
+  },
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 días
+  },
+  debug: process.env.NODE_ENV === "development",
+});
