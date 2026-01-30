@@ -1,5 +1,6 @@
 node_modules
-.next"*.exe" 
+.next
+"*.exe" 
 "*.msi" 
 "*.jar" 
 "*.log" 

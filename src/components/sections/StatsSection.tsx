@@ -10,6 +10,59 @@ import {
 } from 'lucide-react';
 import { botAPI, DashboardData, ApiResponse } from '@/lib/api/bot-client';
 
+// Definir tipo para overview con valores por defecto
+interface OverviewData {
+  botStatus: string;
+  totalShards: number;
+  onlineShards: number;
+  offlineShards: number;
+  activeGuilds: number;
+  totalUsers: number;
+  averagePing: number;
+  uptime: string;
+  memoryUsage: string;
+  loadBalance: string;
+}
+
+// Datos por defecto para overview
+const defaultOverview: OverviewData = {
+  botStatus: 'Offline',
+  totalShards: 0,
+  onlineShards: 0,
+  offlineShards: 0,
+  activeGuilds: 0,
+  totalUsers: 0,
+  averagePing: 0,
+  uptime: '0s',
+  memoryUsage: '0 MB',
+  loadBalance: 'N/A'
+};
+
+// Datos por defecto para commands
+const defaultCommands = {
+  totalExecutions: 0,
+  successRate: '0%',
+  activeCommands: 0,
+  topCommand: { name: 'N/A', count: 0 }
+};
+
+// Datos por defecto para performance
+const defaultPerformance = {
+  latency: 0,
+  memoryUsage: 0,
+  cacheHitRate: 0,
+  uptimePercent: 0
+};
+
+// Datos por defecto para system
+const defaultSystem = {
+  platform: 'N/A',
+  nodeVersion: 'N/A',
+  memory: 0,
+  cpuCores: 0,
+  uptime: '0s'
+};
+
 export default function StatsSection() {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -39,12 +92,11 @@ export default function StatsSection() {
       } else {
         // Fallback a bot stats
         const statsData = await botAPI.getBotSummary();
-        if (statsData && statsData.success !== false) {
-          setDashboardData(statsData.data);
+        if (statsData && statsData.success !== false && statsData.data) {
+          // Forzar el tipo a DashboardData
+          setDashboardData(statsData.data as DashboardData);
           setApiStatus('connected');
           setLastUpdated(new Date().toLocaleTimeString('es-ES'));
-        } else {
-          throw new Error('No se pudieron obtener datos de la API');
         }
       }
     } catch (err: any) {
@@ -137,10 +189,11 @@ export default function StatsSection() {
     );
   }
 
-  const overview = dashboardData?.overview || {};
-  const commands = dashboardData?.commands || {};
-  const performance = dashboardData?.performance || {};
-  const system = dashboardData?.system || {};
+  // Usar los datos del dashboard o los valores por defecto
+  const overview = dashboardData?.overview || defaultOverview;
+  const commands = dashboardData?.commands || defaultCommands;
+  const performance = dashboardData?.performance || defaultPerformance;
+  const system = dashboardData?.system || defaultSystem;
 
   return (
     <section className="py-12">
@@ -187,7 +240,7 @@ export default function StatsSection() {
                 overview.botStatus === 'Online' ? 'bg-green-500 animate-pulse' : 'bg-red-500'
               }`} />
               <span className={overview.botStatus === 'Online' ? 'text-green-400' : 'text-red-400'}>
-                {overview.botStatus || 'Offline'}
+                {overview.botStatus}
               </span>
             </div>
             <Button 
@@ -213,18 +266,18 @@ export default function StatsSection() {
                   <Server className="h-6 w-6 text-blue-400" />
                 </div>
                 <Badge variant={overview.botStatus === 'Online' ? 'success' : 'destructive'}>
-                  {overview.botStatus || 'Offline'}
+                  {overview.botStatus}
                 </Badge>
               </div>
               <div className="text-3xl font-bold">
-                {formatNumber(overview.activeGuilds || 0)}
+                {formatNumber(overview.activeGuilds)}
               </div>
               <p className="text-gray-400">Servidores Activos</p>
               <div className="mt-4 flex items-center gap-4 text-sm">
                 <div className="flex items-center gap-1">
                   <Users className="h-4 w-4 text-gray-500" />
                   <span className="text-gray-400">
-                    {formatNumber(overview.totalUsers || 0)} usuarios
+                    {formatNumber(overview.totalUsers)} usuarios
                   </span>
                 </div>
               </div>
@@ -243,17 +296,17 @@ export default function StatsSection() {
                   overview.averagePing < 200 ? 'bg-yellow-500/10 text-yellow-400' :
                   'bg-red-500/10 text-red-400'
                 }>
-                  {overview.averagePing || 0}ms
+                  {overview.averagePing}ms
                 </Badge>
               </div>
               <div className="text-3xl font-bold">
-                {overview.averagePing || 0}ms
+                {overview.averagePing}ms
               </div>
               <p className="text-gray-400">Latencia Promedio</p>
               <div className="mt-4 space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Uptime:</span>
-                  <span className="font-medium">{overview.uptime || '0s'}</span>
+                  <span className="font-medium">{overview.uptime}</span>
                 </div>
               </div>
             </CardContent>
@@ -271,17 +324,17 @@ export default function StatsSection() {
                 </Badge>
               </div>
               <div className="text-3xl font-bold">
-                {overview.onlineShards || 0}
+                {overview.onlineShards}
               </div>
               <p className="text-gray-400">Shards Online</p>
               <div className="mt-4 space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Total:</span>
-                  <span className="font-medium">{overview.totalShards || 1}</span>
+                  <span className="font-medium">{overview.totalShards}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Balance:</span>
-                  <span className="font-medium">{overview.loadBalance || 'N/A'}</span>
+                  <span className="font-medium">{overview.loadBalance}</span>
                 </div>
               </div>
             </CardContent>
@@ -295,21 +348,21 @@ export default function StatsSection() {
                   <Cpu className="h-6 w-6 text-orange-400" />
                 </div>
                 <Badge variant="outline">
-                  {system.platform || 'unknown'}
+                  {system.platform}
                 </Badge>
               </div>
               <div className="text-3xl font-bold">
-                {performance.memoryUsage || '0'}%
+                {performance.memoryUsage}%
               </div>
               <p className="text-gray-400">Uso de Memoria</p>
               <div className="mt-4 space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Node:</span>
-                  <span className="font-mono text-sm">{system.nodeVersion || 'N/A'}</span>
+                  <span className="font-mono text-sm">{system.nodeVersion}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">CPU Cores:</span>
-                  <span className="font-medium">{system.cpuCores || 'N/A'}</span>
+                  <span className="font-medium">{system.cpuCores}</span>
                 </div>
               </div>
             </CardContent>
@@ -323,21 +376,21 @@ export default function StatsSection() {
                   <Command className="h-6 w-6 text-red-400" />
                 </div>
                 <Badge variant="outline" className="bg-green-500/10 text-green-400 border-green-500/30">
-                  {commands.successRate || '98%'}
+                  {commands.successRate}
                 </Badge>
               </div>
               <div className="text-3xl font-bold">
-                {formatNumber(commands.totalExecutions || 0)}
+                {formatNumber(commands.totalExecutions)}
               </div>
               <p className="text-gray-400">Comandos Ejecutados</p>
               <div className="mt-4 space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Éxito:</span>
-                  <span className="font-medium">{commands.successRate || 'N/A'}</span>
+                  <span className="font-medium">{commands.successRate}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Top:</span>
-                  <span className="font-medium">{commands.topCommand?.name || 'N/A'}</span>
+                  <span className="font-medium">{commands.topCommand?.name}</span>
                 </div>
               </div>
             </CardContent>
@@ -360,13 +413,13 @@ export default function StatsSection() {
                   <div>
                     <div className="flex justify-between text-sm mb-1">
                       <span className="text-gray-400">Latencia</span>
-                      <span>{performance.latency || 0}ms</span>
+                      <span>{performance.latency}ms</span>
                     </div>
                     <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
                       <div 
                         className="h-full bg-gradient-to-r from-green-500 to-emerald-500 rounded-full transition-all duration-500"
                         style={{ 
-                          width: `${Math.min(100, (performance.latency || 0) / 2)}%` 
+                          width: `${Math.min(100, performance.latency / 2)}%` 
                         }}
                       />
                     </div>
@@ -375,12 +428,12 @@ export default function StatsSection() {
                   <div>
                     <div className="flex justify-between text-sm mb-1">
                       <span className="text-gray-400">Cache Hit Rate</span>
-                      <span>{performance.cacheHitRate || 0}%</span>
+                      <span>{performance.cacheHitRate}%</span>
                     </div>
                     <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
                       <div 
                         className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-500"
-                        style={{ width: `${performance.cacheHitRate || 0}%` }}
+                        style={{ width: `${performance.cacheHitRate}%` }}
                       />
                     </div>
                   </div>
@@ -390,12 +443,12 @@ export default function StatsSection() {
                   <div>
                     <div className="flex justify-between text-sm mb-1">
                       <span className="text-gray-400">Uptime</span>
-                      <span>{performance.uptimePercent || 0}%</span>
+                      <span>{performance.uptimePercent}%</span>
                     </div>
                     <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
                       <div 
                         className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-500"
-                        style={{ width: `${performance.uptimePercent || 0}%` }}
+                        style={{ width: `${performance.uptimePercent}%` }}
                       />
                     </div>
                   </div>
@@ -403,12 +456,12 @@ export default function StatsSection() {
                   <div>
                     <div className="flex justify-between text-sm mb-1">
                       <span className="text-gray-400">Uso de Memoria</span>
-                      <span>{performance.memoryUsage || 0}%</span>
+                      <span>{performance.memoryUsage}%</span>
                     </div>
                     <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
                       <div 
                         className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full transition-all duration-500"
-                        style={{ width: `${performance.memoryUsage || 0}%` }}
+                        style={{ width: `${performance.memoryUsage}%` }}
                       />
                     </div>
                   </div>
@@ -429,23 +482,23 @@ export default function StatsSection() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <p className="text-sm text-gray-400">Plataforma</p>
-                  <p className="font-medium">{system.platform || 'N/A'}</p>
+                  <p className="font-medium">{system.platform}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-gray-400">Node.js</p>
-                  <p className="font-mono text-sm">{system.nodeVersion || 'N/A'}</p>
+                  <p className="font-mono text-sm">{system.nodeVersion}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-gray-400">CPU Cores</p>
-                  <p className="font-medium">{system.cpuCores || 'N/A'}</p>
+                  <p className="font-medium">{system.cpuCores}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-gray-400">Memoria Total</p>
-                  <p className="font-medium">{system.memory || 0} MB</p>
+                  <p className="font-medium">{system.memory} MB</p>
                 </div>
                 <div className="space-y-1 col-span-2">
                   <p className="text-sm text-gray-400">Uptime del Sistema</p>
-                  <p className="font-medium">{system.uptime || '0s'}</p>
+                  <p className="font-medium">{system.uptime}</p>
                 </div>
               </div>
             </CardContent>

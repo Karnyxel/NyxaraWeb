@@ -21,9 +21,10 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
 );
 Avatar.displayName = "Avatar";
 
-interface AvatarImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+// Usa Omit para excluir las propiedades que vamos a modificar
+interface AvatarImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt'> {
   src?: string | null;
-  alt?: string | null;
+  alt?: string;
 }
 
 const AvatarImage = React.forwardRef<HTMLImageElement, AvatarImageProps>(

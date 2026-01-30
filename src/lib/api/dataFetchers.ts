@@ -1,5 +1,5 @@
 // src/lib/api/dataFetchers.ts - VERSIÓN CORREGIDA
-import { botAPI } from './botApi';
+import { botAPI } from './bot-client';
 
 // Función para crear URLs absolutas en el servidor
 function getApiUrl(path: string): string {
