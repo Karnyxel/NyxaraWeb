@@ -1,5 +1,4 @@
-# Vyrelith
- Bot - Web Dashboard
+# Vyrelith Bot - Web Dashboard
 
 ![Vyrelith Bot](https://img.shields.io/badge/Vyrelith-Discord%20Bot-red)
 ![Next.js](https://img.shields.io/badge/Next.js-15-black)
